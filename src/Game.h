@@ -19,6 +19,8 @@ class Game
   sf::RenderWindow& window;
   sf::Sprite ball;
   sf::Texture ball_texture;
+  sf::Sprite background;
+  sf::Texture background_texture;
 
 };
 
