@@ -41,15 +41,15 @@ bool Game::init()
 			std::cout << "penguin texture did not load \n";
 		}
 
-		if (!animals[0].loadFromFile("../Data/Images/Critter/moose.png"))
+		if (!animals[0].loadFromFile("../Data/Images/Critter/moose passport.png"))
 		{
 			std::cout << "moose texture did not load \n";
 		}
-		if (!animals[1].loadFromFile("../Data/Images/Critter/narwhal.png"))
+		if (!animals[1].loadFromFile("../Data/Images/Critter/narwhal passport.png"))
 		{
 			std::cout << "narwhal texture did not load \n";
 		}
-		if (!animals[2].loadFromFile("../Data/Images/Critter/penguin.png"))
+		if (!animals[2].loadFromFile("../Data/Images/Critter/penguin passport.png"))
 		{
 			std::cout << "penguin texture did not load \n";
 		}
@@ -83,7 +83,7 @@ bool Game::init()
 	quit.setFillColor(sf::Color(sf::Color::Yellow));
 	quit.setPosition((window.getSize().x / 2) + 200, 250);
 
-
+	newAnimal();
 
   return true;
 }
@@ -102,7 +102,8 @@ void Game::render()
 	}
 	else {
 		window.draw(background);
-		//window.draw(character);
+		window.draw(*character);
+		window.draw(*passport);
 		window.draw(logo);
 	}
 }
@@ -118,6 +119,31 @@ void Game::mouseClicked(sf::Event event)
 void Game::keyPressed(sf::Event event)
 {
 	if (event.key.code == sf::Keyboard::P) { in_menu = false; }
+}
+
+void Game::newAnimal()
+{
+	passport_accepted = false;
+	passport_rejected = false;
+
+	int animal_index = rand() % 3;
+	int passport_index = rand() % 3;
+
+	if (animal_index == passport_index) {
+		should_accept = true;
+	}
+	else {
+		should_accept = false;
+	}
+
+	character->setTexture(animals[animal_index], true);
+	character->setScale(1.8, 1.8);
+	character->setPosition(window.getSize().x / 12, window.getSize().y / 12);
+
+	passport->setTexture(passports[passport_index]);
+	passport->setScale(0.6, 0.6);
+	passport->setPosition(window.getSize().x / 2, window.getSize().y / 3);
+
 }
 
 

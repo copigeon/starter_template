@@ -16,6 +16,11 @@ public:
 	void keyPressed(sf::Event event);
 	bool in_menu = true;
 
+	void newAnimal();
+	bool passport_accepted;
+	bool passport_rejected;
+	bool should_accept;
+
 private:
 	sf::RenderWindow& window;
 	sf::Sprite ball;
