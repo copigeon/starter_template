@@ -21,6 +21,10 @@ class Game
   sf::Texture ball_texture;
   sf::Sprite background;
   sf::Texture background_texture;
+  sf::Sprite bird;
+  sf::Texture bird_texture;
+  sf::Text logo;
+  sf::Font myfont;
 
 };
 
