@@ -32,9 +32,9 @@ bool Game::init()
 		{
 			std::cout << "moose texture did not load \n";
 		}
-		if (!passports[1].loadFromFile("../Data/Images/Critter/narwhal.png"))
+		if (!passports[1].loadFromFile("../Data/Images/Critter/elephant.png"))
 		{
-			std::cout << "narwhal texture did not load \n";
+			std::cout << "elephant texture did not load \n";
 		}
 		if (!passports[2].loadFromFile("../Data/Images/Critter/penguin.png"))
 		{
@@ -45,9 +45,9 @@ bool Game::init()
 		{
 			std::cout << "moose texture did not load \n";
 		}
-		if (!animals[1].loadFromFile("../Data/Images/Critter/narwhal passport.png"))
+		if (!animals[1].loadFromFile("../Data/Images/Critter/elephant passport.png"))
 		{
-			std::cout << "narwhal texture did not load \n";
+			std::cout << "elephant texture did not load \n";
 		}
 		if (!animals[2].loadFromFile("../Data/Images/Critter/penguin passport.png"))
 		{
@@ -121,6 +121,23 @@ void Game::keyPressed(sf::Event event)
 	if (event.key.code == sf::Keyboard::P) { in_menu = false; }
 }
 
+void Game::mouseButtonPressed(sf::Event event)
+{
+	if (event.MouseButtonPressed == sf::Mouse::Left) {
+		sf::Vector2f click = static_cast<sf::Vector2f>(sf::Mouse::getPosition(window));
+
+		if (passport->getGlobalBounds().contains(click))
+		{
+			dragged = passport;
+		}
+	}
+}
+
+void Game::mouseButtonReleased(sf::Event event)
+{
+
+}
+
 void Game::newAnimal()
 {
 	passport_accepted = false;
@@ -137,13 +154,26 @@ void Game::newAnimal()
 	}
 
 	character->setTexture(animals[animal_index], true);
-	character->setScale(1.8, 1.8);
+	character->setScale(0.6, 0.6);
 	character->setPosition(window.getSize().x / 12, window.getSize().y / 12);
 
 	passport->setTexture(passports[passport_index]);
-	passport->setScale(0.6, 0.6);
+	passport->setScale(1.8, 1.8);
 	passport->setPosition(window.getSize().x / 2, window.getSize().y / 3);
 
+}
+
+void Game::dragSprite(sf::Sprite* sprite)
+{
+	if (sprite != nullptr) {
+		sf::Vector2f mouse_position = static_cast<sf::Vector2f>(sf::Mouse::getPosition(window));
+		//sf::Vector2f mouse_positionf = static_cast<sf::Vector2f>(mouse_position);
+
+
+
+		sf::Vector2f drag_position = mouse_position; //- drag_offset;
+		sprite->setPosition(drag_position.x, drag_position.y);
+	}
 }
 
 

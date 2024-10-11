@@ -14,12 +14,16 @@ public:
 	void render();
 	void mouseClicked(sf::Event event);
 	void keyPressed(sf::Event event);
+	void mouseButtonPressed(sf::Event event);
+	void mouseButtonReleased(sf::Event event);
 	bool in_menu = true;
 
 	void newAnimal();
 	bool passport_accepted;
 	bool passport_rejected;
 	bool should_accept;
+
+	void dragSprite(sf::Sprite* sprite);
 
 private:
 	sf::RenderWindow& window;
@@ -36,6 +40,7 @@ private:
 	sf::Font myfont;
 	sf::Text play;
 	sf::Text quit;
+	sf::Sprite* dragged = nullptr;
 
 };
 
