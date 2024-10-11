@@ -22,6 +22,7 @@ public:
 	bool passport_accepted;
 	bool passport_rejected;
 	bool should_accept;
+	bool animal_on_passport = false;
 
 	void dragSprite(sf::Sprite* sprite, sf::Vector2f& drag_offset);
 
@@ -42,6 +43,15 @@ private:
 	sf::Text quit;
 	sf::Sprite* dragged = nullptr;
 	sf::Vector2f* drag_offset = nullptr;
+	sf::Sprite* accept;
+	sf::Sprite* reject;
+	sf::Texture accept_texture;
+	sf::Texture reject_texture;
+	sf::Sprite accept_button;
+	sf::Sprite reject_button;
+	sf::Texture accept_button_texture;
+	sf::Texture reject_button_texture;
+
 
 };
 

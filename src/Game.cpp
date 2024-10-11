@@ -15,6 +15,8 @@ Game::~Game()
 	delete [] passports;
 	delete [] animals;
 	delete drag_offset;
+	delete accept;
+	delete reject;
 }
 
 bool Game::init()
@@ -22,6 +24,8 @@ bool Game::init()
 	character = new sf::Sprite;
 	passport = new sf::Sprite;
 	drag_offset = new sf::Vector2f;
+	accept = new sf::Sprite;
+	reject = new sf::Sprite;
 
 	if (!background_texture.loadFromFile("../Data/WhackaMole Worksheet/background.png"))
 	{
@@ -57,6 +61,23 @@ bool Game::init()
 		}
 	//}
 
+		if (!reject_texture.loadFromFile("../Data/Images/Critter/reject.png"))
+		{
+			std::cout << "reject texture did not load \n";
+		}
+		if (!accept_texture.loadFromFile("../Data/Images/Critter/accept.png"))
+		{
+			std::cout << "accept texture did not load \n";
+		}
+		if (!reject_button_texture.loadFromFile("../Data/Images/Critter/reject button.png"))
+		{
+			std::cout << "reject texture did not load \n";
+		}
+		if (!accept_button_texture.loadFromFile("../Data/Images/Critter/accept button.png"))
+		{
+			std::cout << "accept texture did not load \n";
+		}
+
 	if (!myfont.loadFromFile("../Data/Fonts/OpenSans-Bold.ttf"))
 	{
 		std::cout << "myfont did not load \n";
@@ -85,6 +106,14 @@ bool Game::init()
 	quit.setFillColor(sf::Color(sf::Color::Yellow));
 	quit.setPosition((window.getSize().x / 2) + 200, 250);
 
+	accept_button.setTexture(accept_button_texture);
+	accept_button.setScale(1, 1);
+	accept_button.setPosition(window.getSize().x - (accept_button.getGlobalBounds().width + 25), 25);
+
+	reject_button.setTexture(reject_button_texture);
+	reject_button.setScale(1, 1);
+	reject_button.setPosition(window.getSize().x - (accept_button.getGlobalBounds().width + 25), 125);
+
 	newAnimal();
 
   return true;
@@ -107,6 +136,8 @@ void Game::render()
 		window.draw(*character);
 		window.draw(*passport);
 		window.draw(logo);
+		window.draw(accept_button);
+		window.draw(reject_button);
 	}
 }
 
@@ -133,6 +164,30 @@ void Game::mouseButtonPressed(sf::Event event)
 			drag_offset->x = click.x - passport->getPosition().x;
 			drag_offset->y = click.y - passport->getPosition().y;
 			dragged = passport;
+
+		}
+
+		if (animal_on_passport == true) {
+			if (accept_button.getGlobalBounds().contains(click))
+			{
+				if (should_accept == true) {
+					std::cout << "stampy!";
+				}
+				else
+				{
+					std::cout << "bad stampy!";
+				}
+			}
+			if (reject_button.getGlobalBounds().contains(click))
+			{
+				if (should_accept == false) {
+					std::cout << "stampy!";
+				}
+				else
+				{
+					std::cout << "bad stampy!";
+				}
+			}
 		}
 	}
 }
@@ -140,6 +195,16 @@ void Game::mouseButtonPressed(sf::Event event)
 void Game::mouseButtonReleased(sf::Event event)
 {
 	dragged = nullptr;
+
+	sf::Vector2f unclick = static_cast<sf::Vector2f>(sf::Mouse::getPosition(window));
+	
+	if (passport->getGlobalBounds().intersects(character->getGlobalBounds()))
+	{
+		animal_on_passport = true;
+	}
+	else {
+		animal_on_passport = false;
+	}
 }
 
 void Game::newAnimal()
