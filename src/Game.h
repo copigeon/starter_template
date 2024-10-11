@@ -23,7 +23,7 @@ public:
 	bool passport_rejected;
 	bool should_accept;
 
-	void dragSprite(sf::Sprite* sprite);
+	void dragSprite(sf::Sprite* sprite, sf::Vector2f& drag_offset);
 
 private:
 	sf::RenderWindow& window;
@@ -41,6 +41,7 @@ private:
 	sf::Text play;
 	sf::Text quit;
 	sf::Sprite* dragged = nullptr;
+	sf::Vector2f* drag_offset = nullptr;
 
 };
 

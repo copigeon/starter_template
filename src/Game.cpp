@@ -14,12 +14,14 @@ Game::~Game()
 	delete passport;
 	delete [] passports;
 	delete [] animals;
+	delete drag_offset;
 }
 
 bool Game::init()
 {
 	character = new sf::Sprite;
 	passport = new sf::Sprite;
+	drag_offset = new sf::Vector2f;
 
 	if (!background_texture.loadFromFile("../Data/WhackaMole Worksheet/background.png"))
 	{
@@ -90,7 +92,7 @@ bool Game::init()
 
 void Game::update(float dt)
 {
-
+	dragSprite(dragged, *drag_offset);
 }
 
 void Game::render()
@@ -123,11 +125,13 @@ void Game::keyPressed(sf::Event event)
 
 void Game::mouseButtonPressed(sf::Event event)
 {
-	if (event.MouseButtonPressed == sf::Mouse::Left) {
+	if (event.mouseButton.button == sf::Mouse::Left) {
 		sf::Vector2f click = static_cast<sf::Vector2f>(sf::Mouse::getPosition(window));
 
 		if (passport->getGlobalBounds().contains(click))
 		{
+			drag_offset->x = click.x - passport->getPosition().x;
+			drag_offset->y = click.y - passport->getPosition().y;
 			dragged = passport;
 		}
 	}
@@ -135,7 +139,7 @@ void Game::mouseButtonPressed(sf::Event event)
 
 void Game::mouseButtonReleased(sf::Event event)
 {
-
+	dragged = nullptr;
 }
 
 void Game::newAnimal()
@@ -163,15 +167,13 @@ void Game::newAnimal()
 
 }
 
-void Game::dragSprite(sf::Sprite* sprite)
+void Game::dragSprite(sf::Sprite* sprite, sf::Vector2f& drag_offset)
 {
 	if (sprite != nullptr) {
 		sf::Vector2f mouse_position = static_cast<sf::Vector2f>(sf::Mouse::getPosition(window));
 		//sf::Vector2f mouse_positionf = static_cast<sf::Vector2f>(mouse_position);
 
-
-
-		sf::Vector2f drag_position = mouse_position; //- drag_offset;
+		sf::Vector2f drag_position = mouse_position - drag_offset;
 		sprite->setPosition(drag_position.x, drag_position.y);
 	}
 }
